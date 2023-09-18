@@ -1,25 +1,18 @@
 .main {
-  @apply w-screen h-screen flex justify-center items-center bg-no-repeat bg-center bg-cover shadow-md;
-  background-image: url("../assets/background-main.svg");
+  @apply w-screen h-screen bg-[#fceedd] flex justify-center items-center bg-no-repeat bg-center bg-cover shadow-md;
 }
 
 .lef-box {
-  @apply w-[31.25rem] h-[31.25rem] text-white flex flex-1 justify-center flex-col p-8 rounded-tl-[0.625rem] rounded-bl-[0.625rem] bg-center shadow-md;
-  background-image: url("../assets/left-box.svg");
+  @apply w-[31.25rem] h-[31.25rem] items-center bg-no-repeat text-amber-700 font-bold flex flex-1 justify-center flex-col p-8 rounded-tl-lg rounded-bl-lg bg-center shadow-md;
+  background-image: url(../assets/b26dd40e0705dfdea6d3bd918495b64c.jpg);
 }
 
 .inputs {
-  @apply h-10 w-[18.625rem] border-none rounded-[1.25rem] bg-[#e8e6ff] px-[3.125rem] flex flex-col justify-center items-center bg-contain bg-no-repeat bg-[0.625rem] outline-none;
+  @apply h-10 w-[18.625rem] border-[2px] focus:outline-none border-[#ffe4c4] bg-white rounded-lg px-[0.125rem] flex flex-col outline-none;
 }
 
-#user-img {
-  background-image: url(../Assets/user-svgrepo-com.svg);
-}
-
-#password-img {
-  background-image: url(../Assets/password-svgrepo-com.svg);
-}
-
-.icons {
-  @apply w-4 h-4 rounded-full;
+.presentacion{
+  background-color: #ffe4c4;
+  border-radius: 10px;
+  padding: 5px;
 }

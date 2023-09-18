@@ -1,52 +1,81 @@
-import React from "react";
-function FormularioLogin() {
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import ButtonLogin from "./buttonLogin";
+import Swal from "sweetalert2";
+
+
+function FormularioLogin()  {
+  const [usuario, setUsuario] = useState("");
+  const [password,  setPasword] = useState("");
+  const navigate = useNavigate()
+  const IrAlRegistro = () =>{
+    navigate("/register")
+  }
+  const inicioSesion = async (e) => {
+    e.preventDefault()
+    console.log(":", usuario)
+    console.log("Password: ", password)
+
+    const data= {
+      usuario: usuario,
+      password: password,
+    };
+
+    // Consumo de servicio logion
+    await axios
+    .post("http://89.116.25.43:3500/api/login", data)
+    .then((resp) => {
+      console.log(resp);
+      localStorage.setItem("token", resp.data.jwt);
+      localStorage.setItem("user", resp.data.user);
+      localStorage.setItem("username", resp.data.user.usuario);
+      navigate("/dashboard");
+    })
+    .catch((error) => {
+      console.log(error);
+      if (error.response.status === 404){
+        Swal.fire("Informacion", error.response.data.message, "error")
+      } else{
+        Swal.fire("Informacion", "ocurrio un error", "error")
+      }
+    });
+  }
+
   return (
     <div>
       <div>
-        <form className="h-[31.25rem] w-[25rem] rounded-tr-[0.625rem] rounded-br-[0.625rem] flex-1 flex justify-center flex-col items-center bg-[#fefefe] accent-violet-500 select-none shadow-md">
-          <h4 className="text-[30px] font-bold tracking-[0.125rem] text-[#766ce7] uppercase">
-            Ingresar
+        <form className="h-[31.25rem] w-[25rem] rounded-tr-md rounded-br-md flex-1 flex justify-center flex-col items-center bg-amber-700  select-none shadow-md">
+          <h4 className="text-[30px] font-bold text-[#ffe4c4] uppercase">
+            Login
           </h4>
           <div className="flex justify-center items-center mb-3 mt-8">
-            <input className="inputs" id="user-img" type="text" />
+            <input
+              className="inputs"
+              type="email"
+              placeholder="Ingresa tu usuario"
+              onChange={(e) => {
+                setUsuario(e.target.value)
+              }}
+            />
           </div>
           <div className="mb-[1.875rem]">
             <input
-              className="h-10 w-[18.625rem] border-none rounded-[1.25rem] bg-[#e8e6ff] px-[3.125rem] flex flex-col justify-center items-center bg-contain bg-no-repeat bg-[0.625rem] outline-none mt-3"
-              id="password-img"
+              className="inputs"
               type="password"
+              placeholder="Ingresa tu contraseña"
+              onChange={(e) => {
+                setPasword(e.target.value)
+              }}
             />
-          </div>
-          <div className="mb-[1.125rem] flex justify-between gap-[0.313rem]">
-            <input
-              id="checkbox-pointer"
-              className="items-center justify-between cursor-pointer"
-              type="checkbox"
-              name="remember"
-              value="remember"
-            />
-            <label
-              className="cursor-pointer text-[0.75rem] text-[#999999] mr-[6.25rem]"
-              htmlFor="checkbox-pointer"
-            >
-              Recordarme
-            </label>
-            <a
-              className="text-[0.75rem] text-[#999999] ml-auto no-underline hover:text-[#5f53e7]"
-              href="*"
-            >
-              ¿Olvidó la contraseña?
-            </a>
           </div>
           <div>
-            <button className="text-white border-none font-bold tracking-[0.125rem] w-[8.625rem] h-[2.5rem] rounded-[1.25rem] transition-transform duration-200 ease-in bg-gradient-to-r from-[#766ce7] via-[#bf6fb7] to-[#e07c7f] hover:scale-110 hover:brightness-[1.1] hover:shadow-md hover:text-white">
-              INGRESAR
-            </button>
+            <ButtonLogin fnInicioSesion={inicioSesion} label="Suscribe"/>
           </div>
         </form>
       </div>
     </div>
-  );
-}
+    );
+};
 
 export default FormularioLogin;
